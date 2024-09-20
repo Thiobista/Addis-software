@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Form, Input, AddButton } from './StyledComponents'; 
 
 const AddSong = () => {
   const [title, setTitle] = useState('');
@@ -21,7 +22,7 @@ const AddSong = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Enter song title"
       />
-      <button type="submit">Add Song</button>
+     <AddButton type="submit">Add Song</AddButton>
     </form>
   );
 };

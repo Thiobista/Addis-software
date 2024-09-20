@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
+import { SongItem, EditButton, DeleteButton } from './StyledComponents';
 import styled from '@emotion/styled';
 import { useDispatch } from 'react-redux';
 
-const SongItem = styled.div`
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-`;
+
 
 const SongList = ({ songs }) => {
   const dispatch = useDispatch();
@@ -32,13 +27,15 @@ const SongList = ({ songs }) => {
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
               />
-              <button onClick={() => handleUpdate(song)}>Save</button>
+              <EditButton onClick={() => handleUpdate(song)}>Save</EditButton>
             </>
           ) : (
             <>
               {song.title}
-              <button onClick={() => setEditingSongId(song.id)}>Edit</button>
-              <button onClick={() => handleDelete(song.id)}>Delete</button>
+              <EditButton onClick={() => setEditingSongId(song.id)}>Edit</EditButton>
+              <DeleteButton onClick={() => dispatch({ type: 'songs/deleteSong', payload: song.id })}>
+                Delete
+              </DeleteButton>
             </>
           )}
         </SongItem>

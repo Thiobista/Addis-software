@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Container } from './components/StyledComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSongs } from './redux/songsSlice';
 import SongList from './components/SongList';
@@ -13,11 +14,11 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <Container>
       <h1>Song List</h1>
       <AddSong />
       <SongList songs={songs} />
-    </div>
+    </Container>
   );
 };
 
