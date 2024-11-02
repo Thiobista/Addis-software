@@ -1,102 +1,153 @@
-// src/components/StyledComponents.js
 import styled from '@emotion/styled';
-import { space, color, typography, layout, flexbox } from 'styled-system';
-
+const breakpoints = {
+  mobile: '480px',
+  tablet: '768px',
+  desktop: '1024px',
+};
+// Other styled components
 export const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-    @media (max-width: 600px) {
-    max-width: 100%;
-    padding: 10px;
-  }
-  ${space}
-  ${layout}
-`;
-// Song item styling
-export const SongItem = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  ${space}
-  ${color}
-  ${layout}
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
 `;
 
-// Button styling
-export const EditButton = styled.button`
-  background-color: #007bff;
-  color: white;
+export const SongItem = styled.div`
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+   margin-bottom: 10px;
+   display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+`;
+
+export const Button = styled.button`
+  padding: 10px 20px;
+  margin: 5px;
   border: none;
-  padding: 5px 10px;
-  margin-right: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
   cursor: pointer;
-   border-radius: 4px;
+  
   &:hover {
     background-color: #0056b3;
   }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px #007bff;
+
+  &:disabled {
+    background-color: #c0c0c0;
+    cursor: not-allowed;
   }
-  ${typography}
-  ${space}
 `;
 
-export const DeleteButton = styled(EditButton)`
-  background-color: #dc3545;
-   &:hover {
-    background-color: #c82333;
-  }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px #dc3545;
+
+// src/components/StyledComponents.js
+
+// Remove the duplicate `Input` if found, or use the following structure:
+
+export const Input = styled.input`
+  padding: 8px;
+  margin: 5px 0;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    padding: 6px;
   }
 `;
-// Form styling
-export const Form = styled.form`
+
+// Make sure there's only one definition of `Input`.
+
+
+export const PaginationControls = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  ${space}
-  ${layout}
+  margin-top: 20px;
+  width: 200px;
+align-items: center;
+  gap: 10px;
+  button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
 `;
 
-// Input styling
-export const Input = styled.input`
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  flex: 1;
-  margin-right: 10px;
-  ${typography}
-  ${space}
+
+export const AddSongContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+   margin-bottom: 20px;
 `;
 
-// Add song button styling
-export const AddButton = styled.button`
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  ${typography}
-  ${space}
+export const SongDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  text-align: left;
+  
+  p {
+    margin-bottom: 5px;
+  }
 `;
-export const Heading = styled.h1`
-  font-size: 2rem;
+
+
+export const SongActions = styled.div`
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+`;
+export const Loader = styled.div`
+  margin: 20px 0;
   font-weight: bold;
   text-align: center;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 14px;
+  }
+`;
+export const Title = styled.h1`
+  font-size: 24px;
+  color: #333;
   margin-bottom: 20px;
-  ${typography}
-  ${color}
 `;
 
-export const SongTitle = styled.span`
-  font-size: 1.2rem;
-  ${typography}
-  ${color}
+export const EditButton = styled(Button)`
+  background-color: #28a745;
 `;
+
+export const DeleteButton = styled(Button)`
+  background-color: #dc3545;
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  margin-top: 10px;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border: 1px solid #ffcccc;
+  border-radius: 4px;
+   margin-bottom: 10px;
+   font-weight: bold;
+`;
+

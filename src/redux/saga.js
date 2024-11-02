@@ -1,53 +1,61 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import axios from 'axios';
-import { setSongs, addSong, updateSong, deleteSong } from './songsSlice';
-
-function* fetchSongs() {
-  try {
-    const response = yield call(axios.get, 'https://jsonplaceholder.typicode.com/posts'); // Mock API for testing
-    yield put(setSongs(response.data));
-  } catch (error) {
-    console.error('Fetch error', error);
-  }
-}
-
-function* addNewSong(action) {
-  try {
-    const response = yield call(axios.post, 'https://jsonplaceholder.typicode.com/posts', {
-      title: action.payload.title,
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { fetchSongsSuccess, fetchSongsFailure , createSongRequest,
+  createSongSuccess,
+  createSongFailure,updateSongRequest,
+  updateSongSuccess,
+  updateSongFailure,deleteSongRequest,fetchSongs,
+  deleteSongFailure,} from './songsSlice';
+  import axios from 'axios';
+// Fetch posts from JSONPlaceholder API
+function fetchPostsFromAPI(page) {
+  return fetch(`https://jsonplaceholder.typicode.com/posts?_page=${page}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      throw error;
     });
-    yield put(addSong(response.data));
+}
+
+// Worker saga: fetch songs/posts
+function* fetchSongsSaga(action) {
+  try {
+    const posts = yield call(fetchPostsFromAPI, action.payload);
+    yield put(fetchSongsSuccess(posts));
   } catch (error) {
-    console.error('Error adding song:', error);
+    yield put(fetchSongsFailure(error.message));
   }
 }
-function* deleteSongById(action) {
+// Create song saga
+function* createSongSaga(action) {
+  try {
+    const response = yield call(axios.post, 'https://jsonplaceholder.typicode.com/posts', action.payload);
+    yield put(createSongSuccess(response.data));
+  } catch (error) {
+    yield put(createSongFailure(error.message));
+  }
+}
+// Update song saga
+function* updateSongSaga(action) {
+  try {
+    const response = yield call(axios.put, `https://jsonplaceholder.typicode.com/posts/${action.payload.id}`, action.payload);
+    yield put(updateSongSuccess(response.data));
+  } catch (error) {
+    yield put(updateSongFailure(error.message));
+  }
+}
+// API call to delete song
+function* deleteSong(action) {
   try {
     yield call(axios.delete, `https://jsonplaceholder.typicode.com/posts/${action.payload}`);
-    yield put(deleteSong(action.payload));
+    yield put(fetchSongs()); // Refetch songs after deleting
   } catch (error) {
-    console.error('Error deleting song:', error);
+    yield put(fetchSongsFailure('failed to delete message'));
   }
 }
 
-
-// You can add updateSong and deleteSong functions in a similar way.
-
-function* saga() {
-  yield takeEvery('songs/fetchSongs', fetchSongs);
-  yield takeEvery('songs/addSong', addNewSong);
-  // Similarly, handle update and delete.
+// Watcher saga: watch for fetchSongs action
+export default function* songsSaga() {
+  yield takeLatest('songs/fetchSongs', fetchSongsSaga);
+  yield takeLatest('songs/createSongRequest', createSongSaga);
+  yield takeLatest('songs/updateSongRequest', updateSongSaga);
+  yield takeLatest(deleteSongRequest.type, deleteSong);
 }
-function* updateExistingSong(action) {
-  try {
-    const { id, title } = action.payload;
-    const response = yield call(axios.put, `https://jsonplaceholder.typicode.com/posts/${id}`, {
-      title,
-    });
-    yield put(updateSong(response.data));
-  } catch (error) {
-    console.error('Error updating song:', error);
-  }
-}
-
-export default saga;
