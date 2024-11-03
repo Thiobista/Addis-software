@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { updateSongRequest } from '../redux/songsSlice';
 import { AddSongContainer, Button, Input, ErrorMessage } from './StyledComponents';
 
-const EditSong = ({ song }) => {
+const EditSong = ({ song, onComplete  }) => {
   const [title, setTitle] = useState(song.title);
   const [artist, setArtist] = useState(song.artist);
   const [album, setAlbum] = useState(song.album);
@@ -28,10 +28,13 @@ const EditSong = ({ song }) => {
     };
 
     dispatch(updateSongRequest(updatedSong));
-
-    setError(null);
+  
+ setError(null);
+ if (onComplete) {
+  onComplete(); // Call the onComplete callback to hide the form
+}
   };
-
+ 
   return (
     <AddSongContainer>
       <h2>Edit Song</h2>
