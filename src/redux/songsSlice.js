@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const songsSlice = createSlice({
   name: 'songs',
@@ -8,16 +8,23 @@ const songsSlice = createSlice({
     error: null,
     currentPage: 1,
     editingSong: null, // Track the song being edited
+    deletedSongs: [], // Track IDs of deleted songs
   },
   reducers: {
+     // Add this new reducer to handle immediate deletion in the UI
+     deleteSong(state, action) {
+      state.deletedSongs.push(action.payload); // Add song ID to deletedSongs array
+      state.songs = state.songs.filter(song => song.id !== action.payload); // Remove it from songs array
+    },
     fetchSongs: (state, action) => {
       state.loading = true;
       state.error = null; // Reset error state on new request
     },
     fetchSongsSuccess: (state, action) => {
       state.loading = false;
-      state.songs = action.payload;
+      state.songs = action.payload.filter((song) => !state.deletedSongs.includes(song.id));
       state.error = null;
+      state.deletedSongs = []; // Reset deletedSongs on fresh fetch
     },
     fetchSongsFailure: (state, action) => {
       state.loading = false;
@@ -62,6 +69,7 @@ const songsSlice = createSlice({
     deleteSongRequest(state, action) {
       state.songs = state.songs.filter((song) => song.id !== action.payload);
       state.error = null; 
+      state.deletedSongs.push(action.payload);
     },
     deleteSongFailure(state, action) {
       state.error = action.payload; // Handle delete song error
@@ -83,6 +91,7 @@ export const {
   updateSongFailure,
   deleteSongRequest,
   deleteSongFailure,
-} = songsSlice.actions;
+ deleteSong,}
+ = songsSlice.actions;
 
 export default songsSlice.reducer;
