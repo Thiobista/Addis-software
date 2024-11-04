@@ -1,7 +1,7 @@
 // src/components/SongList.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSongs, setPage, deleteSongRequest } from '../redux/songsSlice';
+import { fetchSongs, setPage, deleteSong } from '../redux/songsSlice';
 import { Container, Title, SongItem, PaginationControls, Button, ErrorMessage, SongActions, Loader, Input } from './StyledComponents';
 import AddSong from './AddSong';
 import EditSong from './EditSong';
@@ -14,7 +14,7 @@ const SongList = () => {
 
   useEffect(() => {
     const fetchAllSongs = async () => {
-      await dispatch(fetchSongs(currentPage)); // You can remove the returned data if you don't need it
+      await dispatch(fetchSongs(currentPage));
     };
 
     fetchAllSongs();
@@ -36,7 +36,7 @@ const SongList = () => {
 
   const handleDelete = (songId) => {
     if (window.confirm('Are you sure you want to delete this song?')) {
-      dispatch(deleteSongRequest(songId));
+      dispatch(deleteSong(songId));
     }
   };
 

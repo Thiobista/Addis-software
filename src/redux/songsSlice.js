@@ -4,6 +4,7 @@ const songsSlice = createSlice({
   name: 'songs',
   initialState: {
     songs: [],
+    searchResults: [], // New state to store search results
     loading: false,
     error: null,
     currentPage: 1,
@@ -66,17 +67,28 @@ const songsSlice = createSlice({
       state.error = action.payload;
     },
     // Action for deleting a song
-    deleteSong(state, action) {
+    deleteSong: (state, action) => {
       state.deletedSongs.push(action.payload); // Add song ID to deletedSongs array
       state.songs = state.songs.filter(song => song.id !== action.payload); // Remove it from songs array
     },
     // Action for request to delete a song
-    deleteSongRequest(state, action) {
+    deleteSongRequest: (state) => {
       state.error = null; 
     },
     // Action for delete song failure
-    deleteSongFailure(state, action) {
+    deleteSongFailure: (state, action) => {
       state.error = action.payload; // Handle delete song error
+    },
+    // Action to handle searching for songs
+    searchSongs: (state, action) => {
+      const query = action.payload.toLowerCase();
+      state.searchResults = state.songs.filter(song =>
+        song.title.toLowerCase().includes(query) // Assuming 'title' is the property to search
+      );
+    },
+    // Reset search results
+    resetSearchResults: (state) => {
+      state.searchResults = [];
     },
   },
 });
@@ -95,6 +107,11 @@ export const fetchSongsAsync = (page) => async (dispatch) => {
   }
 };
 
+// Action creator for searching songs
+export const searchSongsAsync = (query) => (dispatch) => {
+  dispatch(searchSongs(query));
+};
+
 export const {
   fetchSongs,
   fetchSongsSuccess,
@@ -110,6 +127,8 @@ export const {
   deleteSongRequest,
   deleteSongFailure,
   deleteSong,
+  searchSongs,
+  resetSearchResults,
 } = songsSlice.actions;
 
 export default songsSlice.reducer;
