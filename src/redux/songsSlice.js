@@ -11,41 +11,40 @@ const songsSlice = createSlice({
     deletedSongs: [], // Track IDs of deleted songs
   },
   reducers: {
-     // Add this new reducer to handle immediate deletion in the UI
-     deleteSong(state, action) {
-      state.deletedSongs.push(action.payload); // Add song ID to deletedSongs array
-      state.songs = state.songs.filter(song => song.id !== action.payload); // Remove it from songs array
-    },
-    fetchSongs: (state, action) => {
+    // Action for starting to fetch songs
+    fetchSongs: (state) => {
       state.loading = true;
       state.error = null; // Reset error state on new request
     },
+    // Action for successfully fetching songs
     fetchSongsSuccess: (state, action) => {
       state.loading = false;
       state.songs = action.payload.filter((song) => !state.deletedSongs.includes(song.id));
       state.error = null;
       state.deletedSongs = []; // Reset deletedSongs on fresh fetch
     },
+    // Action for failed fetch
     fetchSongsFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+    // Action for changing the current page
     setPage: (state, action) => {
       state.currentPage = action.payload;
     },
-      // Action for creating a song
-      createSongRequest: (state) => {
-        state.loading = true;
-      },
-      createSongSuccess: (state, action) => {
-        state.loading = false;
-        state.songs.push(action.payload);
-      },
-      createSongFailure: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      },
-        // Action for starting to edit a song
+    // Action for creating a song
+    createSongRequest: (state) => {
+      state.loading = true;
+    },
+    createSongSuccess: (state, action) => {
+      state.loading = false;
+      state.songs.push(action.payload);
+    },
+    createSongFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    // Action for starting to edit a song
     startEditSong: (state, action) => {
       state.editingSong = action.payload;
     },
@@ -66,16 +65,35 @@ const songsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    deleteSongRequest(state, action) {
-      state.songs = state.songs.filter((song) => song.id !== action.payload);
-      state.error = null; 
-      state.deletedSongs.push(action.payload);
+    // Action for deleting a song
+    deleteSong(state, action) {
+      state.deletedSongs.push(action.payload); // Add song ID to deletedSongs array
+      state.songs = state.songs.filter(song => song.id !== action.payload); // Remove it from songs array
     },
+    // Action for request to delete a song
+    deleteSongRequest(state, action) {
+      state.error = null; 
+    },
+    // Action for delete song failure
     deleteSongFailure(state, action) {
       state.error = action.payload; // Handle delete song error
     },
   },
 });
+
+// Async action creator for fetching songs
+export const fetchSongsAsync = (page) => async (dispatch) => {
+  dispatch(fetchSongs()); // Start the fetch process
+  try {
+    const response = await fetch(`/api/songs?page=${page}`);
+    const data = await response.json();
+    dispatch(fetchSongsSuccess(data)); // Dispatch success action
+    return data; // Return data for further chaining if needed
+  } catch (error) {
+    dispatch(fetchSongsFailure(error.message)); // Dispatch failure action
+    throw error; // Throw error to catch in component if needed
+  }
+};
 
 export const {
   fetchSongs,
@@ -91,7 +109,7 @@ export const {
   updateSongFailure,
   deleteSongRequest,
   deleteSongFailure,
- deleteSong,}
- = songsSlice.actions;
+  deleteSong,
+} = songsSlice.actions;
 
 export default songsSlice.reducer;

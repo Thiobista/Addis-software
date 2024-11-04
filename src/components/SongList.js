@@ -1,6 +1,7 @@
+// src/components/SongList.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSongs, setPage, startEditSong, deleteSongRequest } from '../redux/songsSlice';
+import { fetchSongs, setPage, deleteSongRequest } from '../redux/songsSlice';
 import { Container, Title, SongItem, PaginationControls, Button, ErrorMessage, SongActions, Loader, Input } from './StyledComponents';
 import AddSong from './AddSong';
 import EditSong from './EditSong';
@@ -11,11 +12,13 @@ const SongList = () => {
   const [editingSongId, setEditingSongId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const itemsPerPage = 10; // Adjust the number of items per page as needed
-
   useEffect(() => {
-    dispatch(fetchSongs()); // Fetch all songs once
-  }, [dispatch]);
+    const fetchAllSongs = async () => {
+      await dispatch(fetchSongs(currentPage)); // You can remove the returned data if you don't need it
+    };
+
+    fetchAllSongs();
+  }, [dispatch, currentPage]);
 
   const handleNextPage = () => {
     dispatch(setPage(currentPage + 1));
@@ -28,7 +31,7 @@ const SongList = () => {
   };
 
   const handleEdit = (song) => {
-    setEditingSongId(song.id); // Set the editing song ID
+    setEditingSongId(song.id);
   };
 
   const handleDelete = (songId) => {
@@ -38,10 +41,10 @@ const SongList = () => {
   };
 
   const handleUpdateComplete = () => {
-    setEditingSongId(null); // Reset editing song ID to hide the edit form
+    setEditingSongId(null);
   };
 
-  // Filter out songs that are marked as deleted and match the search term
+  // Filter songs based on the search term
   const filteredSongs = songs
     .filter((song) => !deletedSongs.includes(song.id))
     .filter((song) => {
@@ -56,10 +59,6 @@ const SongList = () => {
         album.includes(search)
       );
     });
-
-  // Calculate the songs to show on the current page after filtering
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedSongs = filteredSongs.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <Container>
@@ -81,7 +80,7 @@ const SongList = () => {
         />
       )}
 
-      {paginatedSongs.map((song) => (
+      {filteredSongs.map((song) => (
         <SongItem key={song.id}>
           <div>Title: {song.title}</div>
           <div>Artist: {song.artist || 'Unknown Artist'}</div>
@@ -97,9 +96,7 @@ const SongList = () => {
           Previous
         </Button>
         <span>Page {currentPage}</span>
-        <Button onClick={handleNextPage} disabled={startIndex + itemsPerPage >= filteredSongs.length}>
-          Next
-        </Button>
+        <Button onClick={handleNextPage}>Next</Button>
       </PaginationControls>
     </Container>
   );
