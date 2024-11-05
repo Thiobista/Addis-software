@@ -98,12 +98,26 @@ export const fetchSongsAsync = (page) => async (dispatch) => {
   dispatch(fetchSongs()); // Start the fetch process
   try {
     const response = await fetch(`/api/songs?page=${page}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch songs');
+    }
     const data = await response.json();
     dispatch(fetchSongsSuccess(data)); // Dispatch success action
     return data; // Return data for further chaining if needed
   } catch (error) {
     dispatch(fetchSongsFailure(error.message)); // Dispatch failure action
     throw error; // Throw error to catch in component if needed
+  }
+};
+
+// Async action creator for deleting a song
+export const deleteSongAsync = (songId) => async (dispatch) => {
+  dispatch(deleteSongRequest());
+  try {
+    await fetch(`/api/songs/${songId}`, { method: 'DELETE' });
+    dispatch(deleteSong(songId)); // Dispatch delete action
+  } catch (error) {
+    dispatch(deleteSongFailure(error.message)); // Dispatch delete failure action
   }
 };
 

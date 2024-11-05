@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSongs, setPage, deleteSong } from '../redux/songsSlice';
-import { Container, Title, SongItem, PaginationControls, Button, ErrorMessage, SongActions, Loader, Input } from './StyledComponents';
 import AddSong from './AddSong';
 import EditSong from './EditSong';
+import './SongList.css';
 
 const SongList = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,6 @@ const SongList = () => {
     setEditingSongId(null);
   };
 
-  // Filter songs based on the search term
   const filteredSongs = songs
     .filter((song) => !deletedSongs.includes(song.id))
     .filter((song) => {
@@ -61,16 +60,17 @@ const SongList = () => {
     });
 
   return (
-    <Container>
-      <Title>Song List</Title>
-      <Input
+    <div className="song-list-container">
+      <h1>Song List</h1>
+      <input
         type="text"
         placeholder="Search by title, artist, or album..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="add-song-input"
       />
-      {loading && <Loader>Loading songs...</Loader>}
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {loading && <div className="loader">Loading songs...</div>}
+      {error && <div className="error-message">{error}</div>}
       <AddSong />
 
       {editingSongId && (
@@ -80,25 +80,27 @@ const SongList = () => {
         />
       )}
 
-      {filteredSongs.map((song) => (
-        <SongItem key={song.id}>
-          <div>Title: {song.title}</div>
-          <div>Artist: {song.artist || 'Unknown Artist'}</div>
-          <div>Album: {song.album || 'Unknown Album'}</div>
-          <SongActions>
-            <Button onClick={() => handleEdit(song)}>Edit</Button>
-            <Button onClick={() => handleDelete(song.id)}>Delete</Button>
-          </SongActions>
-        </SongItem>
-      ))}
-      <PaginationControls>
-        <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
+      <ul className="song-list">
+        {filteredSongs.map((song) => (
+          <li className="song-item" key={song.id}>
+            <div className="song-title">Title: {song.title}</div>
+            <div>Artist: {song.artist || 'Unknown Artist'}</div>
+            <div>Album: {song.album || 'Unknown Album'}</div>
+            <div className="song-actions">
+              <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
+              <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="pagination-controls">
+        <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>
           Previous
-        </Button>
+        </button>
         <span>Page {currentPage}</span>
-        <Button onClick={handleNextPage}>Next</Button>
-      </PaginationControls>
-    </Container>
+        <button className="pagination-button" onClick={handleNextPage}>Next</button>
+      </div>
+    </div>
   );
 };
 
