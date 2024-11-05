@@ -1,4 +1,3 @@
-// src/components/SongList.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSongs, setPage, deleteSong } from '../redux/songsSlice';
@@ -85,12 +84,17 @@ const SongList = () => {
               </li>
             )}
             <li className="song-item">
-              <div className="song-title">Title: {song.title}</div>
-              <div>Artist: {song.artist || 'Unknown Artist'}</div>
-              <div>Album: {song.album || 'Unknown Album'}</div>
-              <div className="song-actions">
-                <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
+              <div className="song-image">
+                <img src={song.image || '/default-song-image.jpg'} alt="Song" />
+              </div>
+              <div className="song-info">
+                <div className="song-title">Title: {song.title}</div>
+                <div className="song-artist">Artist: {song.artist || 'Unknown Artist'}</div>
+                <div className="song-album">Album: {song.album || 'Unknown Album'}</div>
+                <div className="song-actions">
+                  <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
+                  <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
+                </div>
               </div>
             </li>
           </React.Fragment>

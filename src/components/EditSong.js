@@ -24,7 +24,7 @@ const EditSong = ({ song, onComplete  }) => {
       id: song.id,
       title,
       artist,
-      album,
+      album, 
     };
 
     dispatch(updateSongRequest(updatedSong));
