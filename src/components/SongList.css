@@ -1,11 +1,11 @@
 /* src/components/SongList.css */
 
 :root {
-  --primary-color: #bbbdc0;
-  --secondary-color: #f5f5f5;
+  --primary-color: #da95cc;
+  --secondary-color: #3f3838;
   --accent-color: #ff6b6b;
   /*--background-color: #521414;*/
-  --text-color: #333;
+  --text-color: #da95cc;
 }
 
 body {
