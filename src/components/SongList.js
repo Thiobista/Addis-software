@@ -73,26 +73,30 @@ const SongList = () => {
       {error && <div className="error-message">{error}</div>}
       <AddSong />
 
-      {editingSongId && (
-        <EditSong 
-          song={songs.find((song) => song.id === editingSongId)} 
-          onComplete={handleUpdateComplete} 
-        />
-      )}
-
       <ul className="song-list">
         {filteredSongs.map((song) => (
-          <li className="song-item" key={song.id}>
-            <div className="song-title">Title: {song.title}</div>
-            <div>Artist: {song.artist || 'Unknown Artist'}</div>
-            <div>Album: {song.album || 'Unknown Album'}</div>
-            <div className="song-actions">
-              <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
-              <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
-            </div>
-          </li>
+          <React.Fragment key={song.id}>
+            {editingSongId === song.id && (
+              <li>
+                <EditSong 
+                  song={song} 
+                  onComplete={handleUpdateComplete} 
+                />
+              </li>
+            )}
+            <li className="song-item">
+              <div className="song-title">Title: {song.title}</div>
+              <div>Artist: {song.artist || 'Unknown Artist'}</div>
+              <div>Album: {song.album || 'Unknown Album'}</div>
+              <div className="song-actions">
+                <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
+                <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
+              </div>
+            </li>
+          </React.Fragment>
         ))}
       </ul>
+      
       <div className="pagination-controls">
         <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>
           Previous
