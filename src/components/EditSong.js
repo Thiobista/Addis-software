@@ -58,10 +58,9 @@ const EditSong = ({ song, onComplete  }) => {
           onChange={(e) => setAlbum(e.target.value)}
           placeholder="Album"
         />
-        <Button type="submit">Update Song</Button>
+        <Button className="update-song-button" type="submit">Update Song</Button>
       </form>
     </AddSongContainer>
   );
 };
-
 export default EditSong;

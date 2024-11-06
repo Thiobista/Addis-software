@@ -85,7 +85,8 @@ const SongList = () => {
             )}
             <li className="song-item">
               <div className="song-image">
-                <img src={song.image || '/default-song-image.jpg'} alt="Song" />
+                {/* Set a static image for all songs */}
+                <img src='/default-music-image.jpg' alt="Music" />
               </div>
               <div className="song-info">
                 <div className="song-title">Title: {song.title}</div>
