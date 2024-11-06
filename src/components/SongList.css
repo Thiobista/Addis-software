@@ -30,6 +30,8 @@ background-image: url('/background.jpg');
   background-color: var(--background-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  flex: 2; /* takes up 2 parts of the available space */
+  flex-grow: 1;
 }
 
 h1 {
@@ -40,11 +42,12 @@ h1 {
 
 .add-song-input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 16px;
+  max-width: 400px;
 }
 
 .song-list {
@@ -61,14 +64,16 @@ h1 {
   justify-content: space-between;
   align-items: center;
   transition: transform 0.2s ease-in-out;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
 }
 .song-image img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 8px;
   object-fit: cover;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 .song-item:hover {
   transform: scale(1.02);
@@ -82,11 +87,12 @@ h1 {
 }
 .song-info {
   flex: 1;
+  flex-grow: 1;
 }
 .song-actions {
   display: flex;
   gap: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .song-artist, .song-album {
   font-size: 0.9em;
@@ -119,19 +125,23 @@ button:hover {
   padding: 5px 10px;
   font-size: 0.9em;
   cursor: pointer;
+  margin-right: 10px;
 }
 .pagination-controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   gap: 20px;
   margin-top: 20px;
 }
 
 .pagination-button {
-  padding: 8px 15px;
+  padding: 10px 15px;
+  font-size: 14px;
   background-color: var(--primary-color);
   color: white;
   border-radius: 5px;
+  border: none;
   margin: 0 5px;
   cursor: pointer;
 }
@@ -182,4 +192,20 @@ input, select, textarea {
   background-color: var(--accent-color);
   color: white;
   margin-left: 8px;
+}
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.add-song-container {
+  flex: 1; /* takes up 1 part of the available space */
+  max-width: 300px; /* optional, adjust according to design */
+}
+.song-title, .song-artist, .song-album {
+  margin: 5px 0;
+}
+.pagination-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

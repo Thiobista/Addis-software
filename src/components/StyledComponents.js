@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 const breakpoints = {
   mobile: '480px',
   tablet: '768px',
@@ -34,7 +35,7 @@ export const Button = styled.button`
   padding: 10px 20px;
   margin: 5px;
   border: none;
-  background-color: #007bff;
+  background-color: #da95cc;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;

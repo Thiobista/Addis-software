@@ -9,7 +9,7 @@ const SongList = () => {
   const dispatch = useDispatch();
   const { songs, loading, error, currentPage, deletedSongs } = useSelector((state) => state.songs);
   const [editingSongId, setEditingSongId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchAllSongs = async () => {
@@ -46,9 +46,9 @@ const SongList = () => {
   const filteredSongs = songs
     .filter((song) => !deletedSongs.includes(song.id))
     .filter((song) => {
-      const title = song.title ? song.title.toLowerCase() : "";
-      const artist = song.artist ? song.artist.toLowerCase() : "";
-      const album = song.album ? song.album.toLowerCase() : "";
+      const title = song.title ? song.title.toLowerCase() : '';
+      const artist = song.artist ? song.artist.toLowerCase() : '';
+      const album = song.album ? song.album.toLowerCase() : '';
       const search = searchTerm.toLowerCase();
 
       return (
@@ -68,46 +68,59 @@ const SongList = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="add-song-input"
       />
+      
       {loading && <div className="loader">Loading songs...</div>}
       {error && <div className="error-message">{error}</div>}
-      <AddSong />
-
-      <ul className="song-list">
-        {filteredSongs.map((song) => (
-          <React.Fragment key={song.id}>
-            {editingSongId === song.id && (
-              <li>
-                <EditSong 
-                  song={song} 
-                  onComplete={handleUpdateComplete} 
-                />
-              </li>
-            )}
-            <li className="song-item">
-              <div className="song-image">
-                {/* Set a static image for all songs */}
-                <img src='/default-music-image.jpg' alt="Music" />
-              </div>
-              <div className="song-info">
-                <div className="song-title">Title: {song.title}</div>
-                <div className="song-artist">Artist: {song.artist || 'Unknown Artist'}</div>
-                <div className="song-album">Album: {song.album || 'Unknown Album'}</div>
-                <div className="song-actions">
-                  <button className="edit-button" onClick={() => handleEdit(song)}>Edit</button>
-                  <button className="delete-button" onClick={() => handleDelete(song.id)}>Delete</button>
-                </div>
-              </div>
-            </li>
-          </React.Fragment>
-        ))}
-      </ul>
       
-      <div className="pagination-controls">
-        <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>Page {currentPage}</span>
-        <button className="pagination-button" onClick={handleNextPage}>Next</button>
+      {/* Flex Container for Add Song and Song List */}
+      <div className="main-content">
+        {/* Add Song Form */}
+        <div className="add-song-container">
+          <AddSong />
+        </div>
+
+        {/* Song List */}
+        <div className="song-list-container">
+          <ul className="song-list">
+            {filteredSongs.map((song) => (
+              <React.Fragment key={song.id}>
+                {editingSongId === song.id && (
+                  <li>
+                    <EditSong song={song} onComplete={handleUpdateComplete} />
+                  </li>
+                )}
+                <li className="song-item">
+                  <div className="song-image">
+                    {/* Static Image */}
+                    <img src="/default-music-image.jpg" alt="Song" />
+                  </div>
+                  <div className="song-info">
+                    <div className="song-title">Title: {song.title}</div>
+                    <div className="song-artist">Artist: {song.artist || 'Unknown Artist'}</div>
+                    <div className="song-album">Album: {song.album || 'Unknown Album'}</div>
+                    <div className="song-actions">
+                      <button className="edit-button" onClick={() => handleEdit(song)}>
+                        Edit
+                      </button>
+                      <button className="delete-button" onClick={() => handleDelete(song.id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </React.Fragment>
+            ))}
+          </ul>
+          
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <button className="pagination-button" onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>Page {currentPage}</span>
+            <button className="pagination-button" onClick={handleNextPage}>Next</button>
+          </div>
+        </div>
       </div>
     </div>
   );

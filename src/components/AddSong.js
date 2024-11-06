@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createSongRequest } from '../redux/songsSlice';
 import { AddSongContainer, Button, Input, ErrorMessage } from './StyledComponents';
+import './SongList.css';
 
 const AddSong = () => {
   const [title, setTitle] = useState('');
@@ -58,7 +59,7 @@ const AddSong = () => {
           onChange={(e) => setAlbum(e.target.value)}
           placeholder="Album"
         />
-        <Button type="submit">Add Song</Button>
+        <Button className="add-song-button" type="submit">Add Song</Button>
       </form>
     </AddSongContainer>
   );
