@@ -1,0 +1,85 @@
+/* General container styling */
+.add-song-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #4c25b6 0%, #feb47b 100%); /* Soft pastel gradient */
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add hover effect to the container */
+.add-song-container:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Title styling */
+.add-song-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Form styling */
+.add-song-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+}
+
+/* Input fields styling */
+.add-song-input {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Input focus effect */
+.add-song-input:focus {
+    border-color: #7c5fff;
+    box-shadow: 0 0 10px rgba(95, 98, 255, 0.6);
+}
+
+/* Button styling */
+.add-song-button {
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(135deg, #352494, #4f3bc2);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-song-button:hover {
+    background: linear-gradient(135deg, #6f7dcf, #775fff);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.add-song-button:active {
+    transform: translateY(0);
+}
+
+/* Button focus styling */
+.add-song-button:focus {
+    outline: none;
+    box-shadow: 0 0 15px rgba(95, 124, 255, 0.7);
+}

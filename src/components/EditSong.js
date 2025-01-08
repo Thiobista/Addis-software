@@ -1,10 +1,9 @@
-// src/components/EditSong.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateSongRequest } from '../redux/songsSlice';
-import { AddSongContainer, Button, Input, ErrorMessage } from './StyledComponents';
+import './EditSong.css'; // Add this for modal-specific styles
 
-const EditSong = ({ song, onComplete  }) => {
+const EditSong = ({ song, onComplete }) => {
   const [title, setTitle] = useState(song.title);
   const [artist, setArtist] = useState(song.artist);
   const [album, setAlbum] = useState(song.album);
@@ -24,43 +23,51 @@ const EditSong = ({ song, onComplete  }) => {
       id: song.id,
       title,
       artist,
-      album, 
+      album,
     };
 
     dispatch(updateSongRequest(updatedSong));
-  
- setError(null);
- if (onComplete) {
-  onComplete(); // Call the onComplete callback to hide the form
-}
+    setError(null);
+    if (onComplete) {
+      onComplete(); // Close the modal
+    }
   };
- 
+
   return (
-    <AddSongContainer>
-      <h2>Edit Song</h2>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Song Title"
-        />
-        <Input
-          type="text"
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
-          placeholder="Artist"
-        />
-        <Input
-          type="text"
-          value={album}
-          onChange={(e) => setAlbum(e.target.value)}
-          placeholder="Album"
-        />
-        <Button className="update-song-button" type="submit">Update Song</Button>
-      </form>
-    </AddSongContainer>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Edit Song</h2>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Song Title"
+            className="input-field"
+          />
+          <input
+            type="text"
+            value={artist}
+            onChange={(e) => setArtist(e.target.value)}
+            placeholder="Artist"
+            className="input-field"
+          />
+          <input
+            type="text"
+            value={album}
+            onChange={(e) => setAlbum(e.target.value)}
+            placeholder="Album"
+            className="input-field"
+          />
+          <div className="modal-actions">
+            <button type="submit" className="primary-button">Update Song</button>
+            <button type="button" onClick={onComplete} className="secondary-button">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
+
 export default EditSong;

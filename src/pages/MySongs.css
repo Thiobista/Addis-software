@@ -1,0 +1,53 @@
+/* General container styling */
+.song-list-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #000; /* Black background */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Title styling */
+.title {
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff; /* White text */
+  margin-bottom: 20px;
+}
+
+/* Song item styling */
+.song-item {
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+  color: #fff; /* White text for song items */
+  padding: 10px 15px;
+  margin: 10px 0;
+  background: #333; /* Dark background for song items */
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.song-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* Lighter shadow for hover effect */
+  background: #444; /* Slightly lighter background on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .song-list-container {
+    margin: 20px;
+    padding: 15px;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .song-item {
+    font-size: 1rem;
+  }
+}

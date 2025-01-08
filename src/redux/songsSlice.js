@@ -1,5 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
+const initialState = {
+  songs: [],
+  loading: false,
+  error: null,
+  currentPage: 1,
+  deletedSongs: [],
+};
+
 const songsSlice = createSlice({
   name: 'songs',
   initialState: {
@@ -90,6 +99,9 @@ const songsSlice = createSlice({
     resetSearchResults: (state) => {
       state.searchResults = [];
     },
+    addSong: (state, action) => {
+      state.songs.push(action.payload); // Add the new song to the songs array
+    },
   },
 });
 
@@ -127,6 +139,7 @@ export const searchSongsAsync = (query) => (dispatch) => {
 };
 
 export const {
+  addSong,
   fetchSongs,
   fetchSongsSuccess,
   fetchSongsFailure,
