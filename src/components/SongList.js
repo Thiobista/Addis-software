@@ -69,10 +69,23 @@ const SongList = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
+  
+  const [timerStart, setTimerStart] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const timerIntervalRef = useRef(null);
+
+
   const [playingSongId, setPlayingSongId] = useState(null);
+  const [likedSongs, setLikedSongs] = useState(new Set()); // Set to store liked song IDs
+  const [savedSongs, setSavedSongs] = useState(new Set()); 
+
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isPlaying, setIsPlaying] = useState(true); // To track play/pause state
+  const [carouselInterval, setCarouselInterval] = useState(null);
+  const carouselIntervalRef = useRef(null); // Ref to manage the interval
 
   const categories = ['All', 'Pop', 'Rock', 'Hip-Hop', 'Classical', 'Jazz', 'Other'];
 
@@ -84,6 +97,8 @@ const SongList = () => {
     fetchAllSongs();
   }, [dispatch, currentPage]);
 
+
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -121,6 +136,17 @@ const SongList = () => {
   const handleUpdateComplete = () => {
     setEditingSongId(null);
   };
+  const handleLikeSong = (songId) => {
+    setLikedSongs((prevLikedSongs) => {
+      const updatedLikedSongs = new Set(prevLikedSongs);
+      if (updatedLikedSongs.has(songId)) {
+        updatedLikedSongs.delete(songId);
+      } else {
+        updatedLikedSongs.add(songId);
+      }
+      return updatedLikedSongs;
+    });
+  };
 
   const togglePlayPause = (songId) => {
     setPlayingSongId((prevId) => (prevId === songId ? null : songId));
@@ -140,12 +166,16 @@ const SongList = () => {
     }, 3000);
   };
 
-  const handleSaveSong = (song) => {
-    showToast(`${song.title} added to My Songs`);
-  };
-
-  const handleLikeSong = (song) => {
-    showToast(`You liked the song "${song.title}"`);
+  const handleSaveSong = (songId) => {
+    setSavedSongs((prevLSavedSongs) => {
+      const updatedSavedSongs = new Set(prevLSavedSongs);
+      if (updatedSavedSongs.has(songId)) {
+        updatedSavedSongs.delete(songId);
+      } else {
+        updatedSavedSongs.add(songId);
+      }
+      return updatedSavedSongs;
+    });
   };
 
   const handleCategoryChange = (category) => {
@@ -168,35 +198,31 @@ const SongList = () => {
 
 
     
-  useEffect(() => {
-    const interval = setInterval(() => {
+    useEffect(() => {
+      if (isPlaying) {
+        carouselIntervalRef.current = setInterval(() => {
+          setCurrentSlide((prevSlide) => (prevSlide + 1) % songs.slice(0, 5).length);
+        }, 3000);
+      } else {
+        clearInterval(carouselIntervalRef.current);
+      }
+  
+      return () => clearInterval(carouselIntervalRef.current);
+    }, [isPlaying, songs]);
+  
+    const togglePlayPausec = () => {
+      setIsPlaying((prev) => !prev);
+    };
+  
+    const handleNextSlide = () => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % songs.slice(0, 5).length);
-    }, 3000);
+    };
 
-    return () => clearInterval(interval);
-  }, [songs]);
+    const handlePreviousSlide = () => {
+      setCurrentSlide((prevSlide) => (prevSlide - 1 + songs.slice(0, 5).length) % songs.slice(0, 5).length);
+    };
 
-
-  useEffect(() => {
-    dispatch(fetchSongs(currentPage));
-  }, [dispatch, currentPage]);
-
-  const handleNextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % songs.slice(0, 5).length);
-  };
-
-  const handlePreviousSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + songs.slice(0, 5).length) % songs.slice(0, 5).length);
-  };
-
-  const handlePlaySong = (song) => {
-    console.log("Play song:", song.title);
-  };
-
-  // const handleSaveSong = (song) => {
-  //   console.log("Save song:", song.title);
-  // };
-
+    
   const renderCarousel = () => (
     <div className="carousel">
       <button className="carousel-arrow left-arrow" onClick={handlePreviousSlide}>
@@ -218,12 +244,12 @@ const SongList = () => {
             {playingSongId === song.id ? (
                       <FaPause
                         className="icon"
-                        onClick={() => togglePlayPause(song.id)}
+                        onClick={() => togglePlayPausec(song.id)}
                       />
                     ) : (
                       <FaPlay
                         className="icon"
-                        onClick={() => togglePlayPause(song.id)}
+                        onClick={() => togglePlayPausec(song.id)}
                       />
                     )}
              <FaSave
@@ -240,6 +266,7 @@ const SongList = () => {
     </div>
   );
 
+  
   return (
     <div className="song-list-wrapper">
       <header className="header">
@@ -322,12 +349,12 @@ const SongList = () => {
                       />
                     )}
                              <FaSave
-                      className="icon"
-                      onClick={() => handleSaveSong(song)}
+                      className={`icon ${savedSongs.has(song.id) ? 'saved' : ''}`}
+                      onClick={() => handleSaveSong(song.id)}
                     />
                     <FaHeart
-                      className="icon"
-                      onClick={() => handleLikeSong(song)}
+                      className={`icon ${likedSongs.has(song.id) ? 'liked' : ''}`}
+                      onClick={() => handleLikeSong(song.id)}
                     />
                     <FaEdit
                       className="icon"

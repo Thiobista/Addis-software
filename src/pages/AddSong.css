@@ -3,11 +3,12 @@
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
-    background: linear-gradient(135deg, #4c25b6 0%, #feb47b 100%); /* Soft pastel gradient */
+    background: linear-gradient(135deg, #333 0%, #777 100%); /* Black-to-gray gradient */
     border-radius: 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
     transition: all 0.3s ease-in-out;
+    margin-left: 320px;
 }
 
 /* Add hover effect to the container */
@@ -19,7 +20,7 @@
 .add-song-title {
     font-family: 'Roboto', sans-serif;
     font-size: 28px;
-    color: #ffffff;
+    color: #fff; /* White */
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -39,19 +40,19 @@
 .add-song-input {
     padding: 12px;
     font-size: 16px;
-    border: 2px solid #ffffff;
+    border: 2px solid #ccc; /* Light gray */
     border-radius: 10px;
     outline: none;
     transition: all 0.3s ease-in-out;
-    background-color: #ffffff;
-    color: #333;
+    background-color: #fff; /* White */
+    color: #000; /* Black */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Input focus effect */
 .add-song-input:focus {
-    border-color: #7c5fff;
-    box-shadow: 0 0 10px rgba(95, 98, 255, 0.6);
+    border-color: #555; /* Darker gray */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
 /* Button styling */
@@ -59,8 +60,8 @@
     padding: 14px 28px;
     font-size: 18px;
     font-weight: bold;
-    color: #ffffff;
-    background: linear-gradient(135deg, #352494, #4f3bc2);
+    color: #fff; /* White */
+    background: linear-gradient(135deg, #444, #666); /* Dark gray-to-medium gray gradient */
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -69,7 +70,7 @@
 }
 
 .add-song-button:hover {
-    background: linear-gradient(135deg, #6f7dcf, #775fff);
+    background: linear-gradient(135deg, #555, #777); /* Lighter gradient */
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
@@ -81,5 +82,5 @@
 /* Button focus styling */
 .add-song-button:focus {
     outline: none;
-    box-shadow: 0 0 15px rgba(95, 124, 255, 0.7);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }

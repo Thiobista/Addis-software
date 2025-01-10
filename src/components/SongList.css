@@ -19,6 +19,15 @@ body {
   flex-direction: row; /* Align main sections horizontally */
   height: 100vh; /* Full viewport height */
 }
+.song-list-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #000; /* Black background */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
 
 h1 {
   font-family: 'Poppins', sans-serif;
@@ -878,4 +887,10 @@ h1 {
   10%, 90% {
     opacity: 1;
   }
+}
+.icon.liked {
+  color: red;
+}
+.icon.saved {
+  color: green;
 }
