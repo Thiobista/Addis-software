@@ -11,43 +11,43 @@ const SongList = () => {
   const menuItems = [
     { name: 'Add Song', path: '/add-song' },
     { name: 'Favorites', path: '/favorites' },
-   
+   ?
   ];
 
-  // // Set oval parameters
-  // const ovalWidth = 400;
-  // const ovalHeight = 400;
-  // const numCircles = 7;
-  // const duration = 100;
+  // Set oval parameters
+  const ovalWidth = 400;
+  const ovalHeight = 400;
+  const numCircles = 7;
+  const duration = 100;
 
-  // // Reference all circles
-  // const circles = document.querySelectorAll('.category-circle');
+  // Reference all circles
+  const circles = document.querySelectorAll('.category-circle');
 
   // Move circles along the oval path
-  // function moveCircles() {
-  //   circles.forEach((circle, index) => {
-  //     const angleOffset = (index / numCircles) * 360;
-  //     let startTime = performance.now();
+  function moveCircles() {
+    circles.forEach((circle, index) => {
+      const angleOffset = (index / numCircles) * 360;
+      let startTime = performance.now();
 
-  //     function animate() {
-  //       const currentTime = performance.now();
-  //       const elapsedTime = ((currentTime - startTime) / 1000) % duration;
-  //       const angle = ((elapsedTime / duration) * 360 + angleOffset) % 360;
-  //       const radians = (angle * Math.PI) / 180;
+      function animate() {
+        const currentTime = performance.now();
+        const elapsedTime = ((currentTime - startTime) / 1000) % duration;
+        const angle = ((elapsedTime / duration) * 360 + angleOffset) % 360;
+        const radians = (angle * Math.PI) / 180;
 
-  //       const x = (ovalWidth / 2) * Math.cos(radians);
-  //       const y = (ovalHeight / 2) * Math.sin(radians);
+        const x = (ovalWidth / 2) * Math.cos(radians);
+        const y = (ovalHeight / 2) * Math.sin(radians);
 
-  //       circle.style.transform = `translate(${x + ovalWidth / 2 - 30}px, ${y + ovalHeight / 2 - 20}px)`;
+        circle.style.transform = `translate(${x + ovalWidth / 2 - 30}px, ${y + ovalHeight / 2 - 20}px)`;
 
-  //       requestAnimationFrame(animate);
-  //     }
+        requestAnimationFrame(animate);
+      }
 
-  //     animate();
-  //   });
-  // }
+      animate();
+    });
+  }
 
-  // moveCircles();
+  moveCircles();
 
   const popularSingers = [
     'Adele',
@@ -70,10 +70,10 @@ const SongList = () => {
   const menuRef = useRef(null);
 
   
-  // const [timerStart, setTimerStart] = useState(null);
-  // const [elapsedTime, setElapsedTime] = useState(0);
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const timerIntervalRef = useRef(null);
+  const [timerStart, setTimerStart] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const timerIntervalRef = useRef(null);
 
 
   const [playingSongId, setPlayingSongId] = useState(null);
